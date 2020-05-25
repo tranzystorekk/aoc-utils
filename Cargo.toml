@@ -3,6 +3,10 @@ name = "aoc-utils"
 version = "0.1.0"
 authors = ["Marcin Puc <marcin.e.puc@gmail.com>"]
 edition = "2018"
+description = "A minimal set of utils for writing Advent of Code solutions"
+readme = "README.md"
+repository = "https://github.com/tranzystorek-io/aoc-utils"
+license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
