@@ -8,6 +8,25 @@ use clap::{App, Arg};
 ///
 /// Supports input from a given file as well as from STDIN.
 /// Implements `std::io::BufRead` for the convenience of the `BufRead::lines` iterator.
+///
+/// # Example
+///
+/// If your executable is named `prog` and the description is "Example description",
+/// then the help (`prog --help`) will look like this:
+///
+/// ```console
+/// Example description
+///
+/// USAGE:
+///     prog [FILE]
+///
+/// FLAGS:
+///     -h, --help       Prints help information
+///     -V, --version    Prints version information
+///
+/// ARGS:
+///     <FILE>    Input file (defaults to STDIN if not provided)
+/// ```
 pub enum BufferedInput {
     File(FileReader),
     Stdin(StdinReader),
