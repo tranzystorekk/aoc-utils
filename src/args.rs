@@ -68,6 +68,12 @@ impl BufferedInput {
 
         Ok(result)
     }
+
+    /// Returns an iterator over the lines of the input
+    /// that panics when an error occurs.
+    pub fn unwrapped_lines(self) -> impl Iterator<Item = String> {
+        self.lines().map(Result::unwrap)
+    }
 }
 
 impl Read for BufferedInput {
