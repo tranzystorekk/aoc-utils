@@ -2,7 +2,7 @@
 name = "aoc-utils"
 version = "0.2.1"
 authors = ["Marcin Puc <marcin.e.puc@gmail.com>"]
-edition = "2018"
+edition = "2021"
 description = "A minimal set of utils for writing Advent of Code solutions"
 readme = "README.md"
 repository = "https://github.com/tranzystorek-io/aoc-utils"
