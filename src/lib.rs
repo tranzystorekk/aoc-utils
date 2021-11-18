@@ -4,3 +4,4 @@ mod args;
 mod bufwrap;
 
 pub use args::BufferedInput;
+pub use elapsed::measure_time;

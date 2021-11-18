@@ -12,3 +12,4 @@ license = "MIT"
 
 [dependencies]
 clap = "2.33"
+elapsed = "0.1"
