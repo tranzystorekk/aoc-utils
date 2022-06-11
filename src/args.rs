@@ -2,7 +2,7 @@ use std::io::{BufRead, Read};
 
 use crate::bufwrap::{file_reader, stdin_reader, FileReader, StdinReader};
 
-use clap::{App, Arg};
+use clap::{Arg, Command};
 
 /// Wraps the input source to an AOC problem. Handles cmdline arguments.
 ///
@@ -54,10 +54,10 @@ impl BufferedInput {
     /// let lines: Vec<String> = input.lines().map(Result::unwrap).collect();
     /// ```
     pub fn parse_args(description: &str) -> std::io::Result<Self> {
-        let input_arg = Arg::with_name("input")
+        let input_arg = Arg::new("input")
             .value_name("FILE")
             .help("Input file (defaults to STDIN if not provided)");
-        let app = App::new("").about(description).arg(input_arg);
+        let app = Command::new("").about(description).arg(input_arg);
 
         let matches = app.get_matches();
 
