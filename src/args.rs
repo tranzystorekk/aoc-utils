@@ -1,8 +1,9 @@
 use std::io::{BufRead, Read};
+use std::path::PathBuf;
 
 use crate::bufwrap::{file_reader, stdin_reader, FileReader, StdinReader};
 
-use clap::{Arg, Command};
+use clap::{value_parser, Arg, Command};
 
 /// Wraps the input source to an AOC problem. Handles cmdline arguments.
 ///
@@ -55,13 +56,16 @@ impl BufferedInput {
     /// ```
     pub fn parse_args(description: &str) -> std::io::Result<Self> {
         let input_arg = Arg::new("input")
+            .value_parser(value_parser!(PathBuf))
             .value_name("FILE")
             .help("Input file (defaults to STDIN if not provided)");
-        let app = Command::new("").about(description).arg(input_arg);
+        let app = Command::new("")
+            .about(description.to_string())
+            .arg(input_arg);
 
         let matches = app.get_matches();
 
-        let result = match matches.value_of("input") {
+        let result = match matches.get_one::<PathBuf>("input") {
             Some(path) => BufferedInput::File(file_reader(path)?),
             _ => BufferedInput::Stdin(stdin_reader()),
         };

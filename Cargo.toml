@@ -11,5 +11,5 @@ license = "MIT"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-clap = { version = "3.1", default-features = false, features = ["std"] }
+clap = { version = "4.0", default-features = false, features = ["std", "help", "usage", "error-context"] }
 elapsed = "0.1"
