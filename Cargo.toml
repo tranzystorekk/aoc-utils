@@ -1,7 +1,7 @@
 [package]
 name = "aoc-utils"
 version = "0.4.3"
-authors = ["Marcin Puc <marcin.e.puc@gmail.com>"]
+authors = ["Marcin Puc <tranzystorek.io@protonmail.com>"]
 edition = "2021"
 description = "A minimal set of utils for writing Advent of Code solutions"
 readme = "README.md"
