@@ -1,11 +1,10 @@
-use std::io::{BufRead, Read};
 use std::path::PathBuf;
 
-use crate::bufwrap::{file_reader, stdin_reader, FileReader, StdinReader};
+use crate::bufwrap::{file_reader, stdin_reader, BufferedInput};
 
 use clap::{value_parser, Arg, Command};
 
-/// Wraps the input source to an AOC problem. Handles cmdline arguments.
+/// CLI command that provides an input source to an AOC problem.
 ///
 /// Supports input from a given file as well as from STDIN.
 /// Implements `std::io::BufRead` for the convenience of the `BufRead::lines` iterator.
@@ -28,12 +27,22 @@ use clap::{value_parser, Arg, Command};
 /// ARGS:
 ///     <FILE>    Input file (defaults to STDIN if not provided)
 /// ```
-pub enum BufferedInput {
-    File(FileReader),
-    Stdin(StdinReader),
+pub struct AocCommand {
+    description: String,
 }
 
-impl BufferedInput {
+impl AocCommand {
+    /// Returns this struct with the description configured.
+    ///
+    /// # Arguments
+    ///
+    /// * `description` - provides an "about" section in the usage manual.
+    pub fn new(description: &str) -> Self {
+        Self {
+            description: description.to_string(),
+        }
+    }
+
     /// Parse cmdline arguments and create a new object
     /// to read lines from an arbitrary input source.
     ///
@@ -41,27 +50,21 @@ impl BufferedInput {
     /// that specifies the file to read from.
     /// If not present, the input is read from STDIN.
     ///
-    /// # Arguments
-    ///
-    /// * `description` - provides an "about" section in the usage manual.
-    ///
     /// # Example
     ///
     /// ```
     /// use std::io::BufRead;
-    /// use aoc_utils::BufferedInput;
+    /// use aoc_utils::AocCommand;
     ///
-    /// let input = BufferedInput::parse_args("Example solution").unwrap();
+    /// let input = AocCommand::new("Example solution").parse_args().unwrap();
     /// let lines: Vec<String> = input.lines().map(Result::unwrap).collect();
     /// ```
-    pub fn parse_args(description: &str) -> std::io::Result<Self> {
+    pub fn parse_args(&self) -> std::io::Result<BufferedInput> {
         let input_arg = Arg::new("input")
             .value_parser(value_parser!(PathBuf))
             .value_name("FILE")
             .help("Input file (defaults to STDIN if not provided)");
-        let app = Command::new("")
-            .about(description.to_string())
-            .arg(input_arg);
+        let app = Command::new("").about(&self.description).arg(input_arg);
 
         let matches = app.get_matches();
 
@@ -71,36 +74,5 @@ impl BufferedInput {
         };
 
         Ok(result)
-    }
-
-    /// Returns an iterator over the lines of the input
-    /// that panics when an error occurs.
-    pub fn unwrapped_lines(self) -> impl Iterator<Item = String> {
-        self.lines().map(Result::unwrap)
-    }
-}
-
-impl Read for BufferedInput {
-    fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
-        match self {
-            BufferedInput::File(file_reader) => file_reader.read(buf),
-            BufferedInput::Stdin(stdin_reader) => stdin_reader.read(buf),
-        }
-    }
-}
-
-impl BufRead for BufferedInput {
-    fn fill_buf(&mut self) -> std::io::Result<&[u8]> {
-        match self {
-            BufferedInput::File(file_reader) => file_reader.fill_buf(),
-            BufferedInput::Stdin(stdin_reader) => stdin_reader.fill_buf(),
-        }
-    }
-
-    fn consume(&mut self, amt: usize) {
-        match self {
-            BufferedInput::File(file_reader) => file_reader.consume(amt),
-            BufferedInput::Stdin(stdin_reader) => stdin_reader.consume(amt),
-        };
     }
 }

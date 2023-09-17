@@ -3,7 +3,8 @@
 mod args;
 mod bufwrap;
 
-pub use args::BufferedInput;
+pub use args::AocCommand;
+pub use bufwrap::BufferedInput;
 
 use std::fmt::Display;
 use std::time::Instant;
