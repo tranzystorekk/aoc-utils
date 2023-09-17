@@ -4,9 +4,9 @@ mod args;
 mod bufwrap;
 
 pub use args::BufferedInput;
-pub use elapsed::measure_time;
 
 use std::fmt::Display;
+use std::time::Instant;
 
 /// Runs the code, and prints out the elapsed time and the result.
 ///
@@ -27,8 +27,10 @@ use std::fmt::Display;
 /// // 49995000
 /// ```
 pub fn measure_and_print<T: Display, F: FnOnce() -> T>(f: F) {
-    let (elapsed, result) = elapsed::measure_time(f);
+    let start = Instant::now();
+    let result = f();
+    let elapsed = start.elapsed();
 
-    eprintln!("{}", elapsed);
+    eprintln!("{:?}", elapsed);
     println!("{}", result);
 }

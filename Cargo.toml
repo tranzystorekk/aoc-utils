@@ -12,4 +12,3 @@ license = "MIT"
 
 [dependencies]
 clap = { version = "4.0", default-features = false, features = ["std", "help", "usage", "error-context"] }
-elapsed = "0.1"
